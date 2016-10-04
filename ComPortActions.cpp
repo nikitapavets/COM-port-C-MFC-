@@ -61,6 +61,8 @@ void ComPortActions::setSpeed(int _speed) {
 int ComPortActions::writePort(string _msg) {
 
 	DWORD numWritten;
+	Converter *conv = new Converter();
+	_msg = conv->zip_pocket(conv->str_to_hex(_msg));
 	WriteFile(this->commHandle, _msg.c_str(), 255, &numWritten, NULL);
 	return numWritten;
 }
@@ -80,5 +82,12 @@ int ComPortActions::readPort(int _quantity) {
 string ComPortActions::getMsg(int _quantity) {
 
 	this->readPort(_quantity);
-	return this->buffer;
+	Converter *conv = new Converter();
+	string desc = "";
+	stringstream ss;
+	ss << conv->hex_to_str(conv->unzip_pocket(this->buffer))
+		<< " unZip[" << conv->unzip_pocket(this->buffer) << "] "
+		<< "Zip[" << this->buffer << "]";
+	desc = ss.str();
+	return desc;
 }

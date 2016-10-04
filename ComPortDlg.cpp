@@ -209,7 +209,7 @@ void CComPortDlg::OnBnClickedSend()
 {
 	UpdateData(TRUE);
 	int writeBytes = com1->writePort((string)this->val_msg);
-	this->cnt_chat_area.AddString(this->val_msg);
+	this->cnt_chat_area.AddString("Вы: " + this->val_msg);
 	this->val_msg = "";
 	UpdateData(FALSE);
 
